@@ -1,0 +1,49 @@
+<!doctype html>
+<script src="static/js/orderbook.js"></script>
+
+<link rel="stylesheet" href="static/css/orderbook.css">
+
+<body>
+  <script>
+
+    var book = new OrderBook();
+    var display = new Display(document.body, book);
+
+    addEventListener("keydown", function(event) {
+      if (event.keyCode == 65) {
+        // console.log("add order submitted...");
+        // var order = new Order('add', 'bid', 9098, 100, 83992356);
+        var order = randomOrder(book, 'add');
+        if (order != null) {
+          book.update(order);
+          display.drawFrame();
+        }
+      }
+    });
+    addEventListener("keydown", function(event) {
+      if (event.keyCode == 68) {
+        // console.log("delete order submitted...");
+        // var order = new Order('del', 'bid', 9098, 100, 83992356);
+        var order = randomOrder(book, 'del');
+        if (order != null) {
+          book.update(order);
+          display.drawFrame();
+        }
+      }
+    });
+    addEventListener("keydown", function(event) {
+      if (event.keyCode == 69) {
+        // console.log("market order submitted...");
+        // var order = new Order('mkt', 'bid', null, 10, 90892213);
+        var order = randomOrder(book, 'mkt');
+        if (order != null) {
+          book.update(order);
+          display.drawFrame();
+        }
+      }
+    });
+
+    simulate(book, display);
+
+  </script>
+</body>
