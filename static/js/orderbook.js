@@ -209,7 +209,7 @@ function Display(parent, book) {
 
   this.xaxis = parent.appendChild(createElementWithClass("div"));
 
-  this.messageWindow = parent.appendChild(createElementWithClass("div", "messageWindow"))
+  // this.messageWindow = parent.appendChild(createElementWithClass("div", "messageWindow"))
   // this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"))
   // this.pauseButton = this.buttonPanel.appendChild(createElementWithClass("button", "pause"))
   // this.pauseButton.appendChild(document.createTextNode("Pause"));

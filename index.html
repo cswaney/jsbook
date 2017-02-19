@@ -10,9 +10,49 @@
   <div class="background"></div>
 
   <div class="buttonPanel">
-    <button><i class="fa fa-play" aria-hidden="true"></i></button>
-    <button><i class="fa fa-pause" aria-hidden="true"></i></button>
+    <button onclick="playPress()"><i id="play-button" class="fa fa-play" aria-hidden="true"></i></button>
+    <button onclick="addPress()"><i id="play-button" class="fa fa-plus" aria-hidden="true"></i></button>
+    <button onclick="deletePress()"><i id="play-button" class="fa fa-minus" aria-hidden="true"></i></button>
+    <button onclick="executePress()"><i id="play-button" class="fa fa-mail-forward" aria-hidden="true"></i></button>
   </div>
+
+  <!-- Button script -->
+  <script>
+    function playPress() {
+      button = document.getElementById("play-button");
+      if (button.className == "fa fa-play") {
+        console.log("play pressed");
+        button.className = "fa fa-pause";
+      } else if (button.className == "fa fa-pause") {
+        console.log("pause pressed");
+        button.className = "fa fa-play";
+      }
+    }
+    function addPress() {
+      console.log("add pressed");
+      var order = randomOrder(book, 'add');
+      if (order != null) {
+        book.update(order);
+        display.drawFrame();
+      }
+    }
+    function deletePress() {
+      console.log("delete pressed");
+      var order = randomOrder(book, 'del');
+      if (order != null) {
+        book.update(order);
+        display.drawFrame();
+      }
+    }
+    function executePress() {
+      console.log("execute pressed");
+      var order = randomOrder(book, 'mkt');
+      if (order != null) {
+        book.update(order);
+        display.drawFrame();
+      }
+    }
+  </script>
 
   <script>
 
