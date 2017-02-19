@@ -1,54 +1,51 @@
+body {
+  background-color: rgb(34, 34, 34);
+}
+
 .book-inactive, .book-active, .book {
-  /*overflow: hidden;*/
-  /*max-width: 1000px;*/
-  /*max-height: 500px;*/
-  /*position: relative;*/
+  overflow: hidden;
+  max-width: 1000px;
+  max-height: 500px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.5);
+  border-color: rgb(255, 255, 255);
   border-width: 1px;
-  border-radius: 5px;
+  border-radius: 3px;
   position: absolute;
-  top: 8px;
-  left: 33px;
+  top: 20px;
+  left: 45px;  /* 25 + 20 */
 }
 
 .background {
-  /*position: absolute;*/
   position: static;
   border-collapse: collapse;  /* no cell borders */
-  /*background-color: rgba(0, 0, 0, 0.0);*/
+  border-width: 1px;
   background-color: transparent;
+  background-color: rgb(34, 34, 34);
   height: 100%;
   width: 100%;
 }
 
 .cell {
-  padding: 0px;
   border-style:dashed;
-  border-color: rgba(0, 0, 0, 0.10);
+  border-color: rgba(255, 255, 255, 0.02);
+  padding: 0px;
   border-width: 1px;
   width: 24px;
   height: 24px;
 }
 
 .bid {
-  /*border-style: solid;
-  border-color: rgba(0, 0, 0, 0.25);
-  border-width: 1px;*/
-  background: rgba(255, 0, 0, 0.75);
+  background: rgb(255, 82, 82);
   position: absolute;
   width: 25px;
   border-radius: 3px;
 }
 
 .ask {
-  /*border-style: solid;
-  border-color: rgba(0, 0, 0, 0.25);
-  border-width: 1px;*/
-  background: rgba(0, 0, 255, 0.75);
+  background: rgb(82, 82, 255);
   position: absolute;
   width: 25px;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .orders {
@@ -56,93 +53,66 @@
 }
 
 .xlabel {
-  /*border-top-style: solid;
-  border-width: 1px;*/
-  padding: 0px;
-  width: 25px;
-  height: 25px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.ylabel {
-  /*border-right-style: solid;
-  border-width: 1px;*/
+  color: white;
   position: static;
   padding: 0px;
   width: 25px;
   height: 25px;
   text-align: center;
   vertical-align: middle;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 7pt;
+}
+
+.ylabel {
+  color: white;
+  position: static;
+  padding: 0px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 7pt;
 }
 
 .yaxis {
-  /*border-right-style: solid;
-  border-width: 1px;*/
   border-collapse: collapse;
+  padding: 0px;
   position: absolute;
-  left: 8px;
-  top: 20.5px;  /* 8 + 12.5 */
+  left: 20px;
+  top: 32.5px;  /* 12.5 + 20 */
   width: 25px;
-  /*background-color: rgba(0, 255, 255, 0.05);*/
   font-size: 8pt;
 }
 
 .xaxis {
   border-collapse: collapse;
-  /*border-top-style: solid;
-  border-width: 1px;*/
   padding: 0px;
   position: absolute;
-  left: 33px;
-  top: 258px;
+  left: 45px;  /* 25 + 20 */
+  top: 270px;  /* 250 + 20 */
   height: 25px;
-  /*background-color: rgba(0, 255, 255, 0.05);*/
   font-size: 8pt;
 }
 
+.messageWindow {
 
+}
 
-
-
-
-/*.main {
+.buttonPanel {
   position: absolute;
-  left: 25px;
-  top: 0px;
-  width: 400px;
-  height: 300px;
-  background-color: green;
+  top: 300px;
+  left: 245px;  /* 25 + 20 + 210 */
 }
 
-.labels-main {
-  border-collapse: collapse;
-  position: fixed;
-  left: 25px;
-  top: 0px;
+button {
+  height: 20px;
+  width: 40px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3pt;
+  border: none;
+  color: rgb(34, 34, 34);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
-
-.labels-yaxis {
-  border-collapse: collapse;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-
-.labels-xaxis {
-  border-collapse: collapse;
-  position: relative;
-  left: 0px;
-  top: 0px;
-}
-
-.item {
-  padding: 0px;
-  border-style:dashed;
-  border-color: rgba(255, 255, 255, 0.1);
-  border-width: 1px;
-  width: 24px;
-  height: 24px;
-  text-align: center;
-  color: white;
-}*/

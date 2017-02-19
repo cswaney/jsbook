@@ -12,7 +12,7 @@ args.maxPrice = 9105
 args.maxPriceImprovement = 2;
 args.minStartingOrders = 10;
 args.maxMessages = 100;
-args.maxDelay = 100;
+args.maxDelay = 3000;
 args.orderBorder = 0;
 
 function OrderBook() {
@@ -208,6 +208,13 @@ function Display(parent, book) {
   this.wrap.style.height = this.height + "px";
 
   this.xaxis = parent.appendChild(createElementWithClass("div"));
+
+  this.messageWindow = parent.appendChild(createElementWithClass("div", "messageWindow"))
+  // this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"))
+  // this.pauseButton = this.buttonPanel.appendChild(createElementWithClass("button", "pause"))
+  // this.pauseButton.appendChild(document.createTextNode("Pause"));
+  // this.playButton = this.buttonPanel.appendChild(createElementWithClass("button", "play"))
+  // this.playButton.appendChild(document.createTextNode("Play"));
 
   this.bookLayer = null;
 }
