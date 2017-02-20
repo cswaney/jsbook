@@ -7,14 +7,20 @@
 
 <body>
 
-  <div class="background"></div>
+  <!-- <div class="background"></div> -->
 
-  <div class="buttonPanel">
+  <!-- <div class="buttonPanel">
     <button onclick="playPress()"><i id="play-button" class="fa fa-play" aria-hidden="true"></i></button>
     <button onclick="addPress()"><i id="play-button" class="fa fa-plus" aria-hidden="true"></i></button>
     <button onclick="deletePress()"><i id="play-button" class="fa fa-minus" aria-hidden="true"></i></button>
     <button onclick="executePress()"><i id="play-button" class="fa fa-mail-forward" aria-hidden="true"></i></button>
-  </div>
+  </div> -->
+
+  <!-- <div class="window">
+    <p class="message" style="color: rgba(255, 255, 255, 1.0);">type: ADD, vol: 100, prc: 90.99, side: BID</p>
+    <p class="message" style="color: rgba(255, 255, 255, 0.5);">type: DEL, vol: 100, prc: 90.99, side: BID</p>
+    <p class="message" style="color: rgba(255, 255, 255, 0.1);">type: ADD, vol: 100, prc: 90.98, side: BID</p>
+  </div> -->
 
   <!-- Button script -->
   <script>
@@ -22,10 +28,12 @@
       button = document.getElementById("play-button");
       if (button.className == "fa fa-play") {
         console.log("play pressed");
+        playing = false;
         button.className = "fa fa-pause";
       } else if (button.className == "fa fa-pause") {
         console.log("pause pressed");
         button.className = "fa fa-play";
+        playing = true;
       }
     }
     function addPress() {
@@ -58,6 +66,7 @@
 
     var book = new OrderBook();
     var display = new Display(document.body, book);
+    var playing = false;
 
     addEventListener("keydown", function(event) {
       if (event.keyCode == 65) {
@@ -93,7 +102,8 @@
       }
     });
 
-    simulate(book, display);
+    initialize(book, display);
+    // simulate(book, display);
 
   </script>
 

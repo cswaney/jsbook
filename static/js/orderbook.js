@@ -1,16 +1,17 @@
-// TODO: make a Random module.
-// TODO: label axes.
-// TODO: axes should automatically set ranges.
+// TODO: message window (with fading messages).
+// TODO: play/pause functionality.
+// TODO: data upload/download.
+// TODO: algorithm submission.
 
 var args = [];
 args.verbose = false;
 args.minVolume = 1;
-args.maxVolume = 2;
+args.maxVolume = 3;
 args.volIncrements = 100;
-args.minPrice = 9095;
-args.maxPrice = 9105
+args.minPrice = 9000;
+args.maxPrice = 9100
 args.maxPriceImprovement = 2;
-args.minStartingOrders = 10;
+args.minStartingOrders = 20;
 args.maxMessages = 100;
 args.maxDelay = 3000;
 args.orderBorder = 0;
@@ -151,15 +152,27 @@ OrderBook.prototype.executeOrder = function(order) {
   } else
       if (args.verbose) console.log("no orders available for execution");
 };
-OrderBook.prototype.bestAskPrice = function(order) {
+OrderBook.prototype.bestAskPrice = function() {
   if (this.asks.length > 0)
     return this.asks[0].price;
   else
     return null;
 }
-OrderBook.prototype.bestBidPrice = function (order) {
+OrderBook.prototype.bestBidPrice = function () {
   if (this.bids.length > 0)
     return this.bids[0].price;
+  else
+    return null;
+};
+OrderBook.prototype.bestBid = function () {
+  if (this.bids.length > 0)
+    return this.bids[0].orders[0];
+  else
+    return null;
+};
+OrderBook.prototype.bestAsk = function () {
+  if (this.asks.length > 0)
+    return this.asks[0].orders[0];
   else
     return null;
 };
@@ -201,22 +214,43 @@ function Display(parent, book) {
   this.height = sharePixels * 1000;  // 1000 shares tall
   this.book = book;
 
-  this.yaxis = parent.appendChild(createElementWithClass("div"));
-  this.yaxis.style.height = this.height + "px";
-
+  // Book
   this.wrap = parent.appendChild(createElementWithClass("div", "book-" + this.status));
   this.wrap.style.height = this.height + "px";
-
-  this.xaxis = parent.appendChild(createElementWithClass("div"));
-
-  // this.messageWindow = parent.appendChild(createElementWithClass("div", "messageWindow"))
-  // this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"))
-  // this.pauseButton = this.buttonPanel.appendChild(createElementWithClass("button", "pause"))
-  // this.pauseButton.appendChild(document.createTextNode("Pause"));
-  // this.playButton = this.buttonPanel.appendChild(createElementWithClass("button", "play"))
-  // this.playButton.appendChild(document.createTextNode("Play"));
-
+  this.yaxis = parent.appendChild(createElementWithClass("div", "", "yaxis"));
+  this.yaxis.style.height = this.height + "px";
+  this.xaxis = parent.appendChild(createElementWithClass("div", "", "xaxis"));
   this.bookLayer = null;
+
+  // Price Chart
+  this.priceChart = parent.appendChild(createElementWithClass("div", "chart", "priceChart"));
+  this.priceChart.style.height = this.height + "px";
+
+  // Volume Chart
+  this.volumeChart = parent.appendChild(createElementWithClass("div", "chart", "volumeChart"));
+  this.volumeChart.style.height = this.height + "px";
+
+  // Buttons
+  this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"));
+  this.playButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  this.playButton.appendChild(createElementWithClass("i", "fa fa-play", "playButton"));
+  this.addButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  this.addButton.appendChild(createElementWithClass("i", "fa fa-plus", "playButton"));
+  this.delButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  this.delButton.appendChild(createElementWithClass("i", "fa fa-minus", "playButton"));
+  this.mktButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  this.mktButton.appendChild(createElementWithClass("i", "fa fa-flash", "playButton"));
+
+  // Message Window
+  this.msgWindow = parent.appendChild(createElementWithClass("div", "messageWindow"));
+  var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "top-msg"));
+  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "mid-msg"));
+  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  msg.style.color = "rgba(255, 255, 255, 0.5)";
+  var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "bot-msg"));
+  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  msg.style.color = "rgba(255, 255, 255, 0.1)";
 }
 Display.prototype.init = function() {
   console.log("Initializing display...");
@@ -230,8 +264,15 @@ Display.prototype.init = function() {
   this.width = orderPixels * this.vLines;
   this.wrap.style.width = this.width + "px";
   this.xaxis.style.width = this.width + "px";
+  this.priceChart.style.width = this.width + "px";
+  this.volumeChart.style.width = this.width + "px";
+  this.buttonPanel.style.left = 45 + (this.width / 2) - 90 + "px";
+  this.msgWindow.style.width = this.width + "px";
 
   this.wrap.appendChild(this.drawBackground());
+  this.priceChart.appendChild(this.drawBackground());
+  this.volumeChart.appendChild(this.drawBackground());
+
   this.drawAxes();
   this.bookLayer = null;
   this.drawFrame();
@@ -303,6 +344,9 @@ Display.prototype.drawFrame = function() {
   this.bookLayer = this.wrap.appendChild(this.drawBook());
   this.wrap.className = "book-" + (this.status || "inactive");
 };
+Display.prototype.postOrder = function(order) {
+  this.msgWindow.child
+}
 
 // Simulation Methods
 function randomInt(low, high, inclusive = false) {
@@ -420,9 +464,8 @@ function randomOrder(book, type) {
   return order;
 }
 
-function simulate(book, display) {
-
-  console.log('Running simulation...');
+function initialize(book, display) {
+  console.log('Initialzing simulation...');
 
   // Fill the book
   var orderCount = 0;
@@ -434,15 +477,19 @@ function simulate(book, display) {
     }
   }
   display.init();
+}
+function simulate(book, display, playing) {
 
-  // Random messaging...
+  console.log('Running simulation...');
   var orderCount = 0;
+
   function generateOrders() {
     if (orderCount < args.maxMessages) {
       var ms = args.maxDelay * Math.random();
       var order = randomOrder(book);
       if (order != null) {
         book.update(order);
+        display.postOrder(order);
         display.drawFrame();
         ++orderCount;
       }
@@ -452,5 +499,6 @@ function simulate(book, display) {
       console.log("Reached end of trading. Shutting down simulation.");
     }
   }
+
   generateOrders();
 }

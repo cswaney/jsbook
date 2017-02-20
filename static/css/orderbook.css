@@ -20,9 +20,36 @@ body {
   border-collapse: collapse;  /* no cell borders */
   border-width: 1px;
   background-color: transparent;
-  background-color: rgb(34, 34, 34);
   height: 100%;
   width: 100%;
+}
+
+.chart {
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-radius: 3px;
+  /*position: relative;
+  top: 50px;
+  left: 45px;*/
+}
+
+#priceChart {
+  position: absolute;
+  top: 380px;
+  left: 45px;
+}
+
+#volumeChart {
+  position: absolute;
+  top: 690px;
+  left: 45px;
+}
+
+.message {
+  color: rgb(255, 255, 255);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 8pt;
 }
 
 .cell {
@@ -96,15 +123,12 @@ body {
   font-size: 8pt;
 }
 
-.messageWindow {
-
-}
-
 .buttonPanel {
   position: absolute;
-  z-index: +1;
-  top: 30px;  /* 20 + 10 */
-  left: 55px;  /* 25 + 20 + 10 */
+  top: 310px;  /* 20 + 10 */
+  /*left: 145px;  /* 25 + 20 + 10 */*/
+  height: 20px;
+  width: 180px;
 }
 
 button {
@@ -113,6 +137,7 @@ button {
   background-color: rgb(255, 255, 255);
   border-radius: 3pt;
   border: none;
+  margin: 2px;
   color: rgb(34, 34, 34);
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
@@ -120,4 +145,21 @@ button {
 
 button:active {
   background-color: rgb(235, 235, 235);
+}
+
+.messageWindow {
+  position: absolute;
+  top: 30px;
+  left: 45px;
+  height: 50px;
+}
+
+.message {
+  position: relative;
+  margin: 0px;
+  /*color: rgba(255, 255, 255, 0.5);*/
+  font-family: 'Open Sans', sans-serif;
+  font-size: 8pt;
+  width: 100%;
+  text-align: center;
 }
