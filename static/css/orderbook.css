@@ -11,8 +11,8 @@ body {
   border-width: 1px;
   border-radius: 3px;
   position: absolute;
-  top: 20px;
-  left: 45px;  /* 25 + 20 */
+  top: 50px;
+  left: 50px;  /* 25 + 20 */
 }
 
 .background {
@@ -57,21 +57,21 @@ body {
   border-color: rgba(255, 255, 255, 0.02);
   padding: 0px;
   border-width: 1px;
-  width: 24px;
-  height: 24px;
+  width: 10px;
+  height: 19px;
 }
 
 .bid {
   background: rgb(255, 82, 82);
   position: absolute;
-  width: 25px;
+  width: 10px;
   border-radius: 3px;
 }
 
 .ask {
   background: rgb(82, 82, 255);
   position: absolute;
-  width: 25px;
+  width: 10px;
   border-radius: 3px;
 }
 
@@ -125,8 +125,8 @@ body {
 
 .buttonPanel {
   position: absolute;
-  top: 310px;  /* 20 + 10 */
-  /*left: 145px;  /* 25 + 20 + 10 */*/
+  top: 280px;  /* 20 + 10 */
+  left: 455px;  /* 25 + 20 + 10 */
   height: 20px;
   width: 180px;
 }
@@ -137,7 +137,8 @@ button {
   background-color: rgb(255, 255, 255);
   border-radius: 3pt;
   border: none;
-  margin: 2px;
+  margin: 0px;
+  padding: 0px;
   color: rgb(34, 34, 34);
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
@@ -149,17 +150,16 @@ button:active {
 
 .messageWindow {
   position: absolute;
-  top: 30px;
-  left: 45px;
-  height: 50px;
+  top: 50px;
+  left: 55px;
+  height: 100px;
 }
 
 .message {
   position: relative;
   margin: 0px;
-  /*color: rgba(255, 255, 255, 0.5);*/
   font-family: 'Open Sans', sans-serif;
-  font-size: 8pt;
+  font-size: 12pt;
   width: 100%;
   text-align: center;
 }

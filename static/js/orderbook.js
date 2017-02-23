@@ -1,5 +1,3 @@
-// TODO: message window (with fading messages).
-// TODO: play/pause functionality.
 // TODO: data upload/download.
 // TODO: algorithm submission.
 
@@ -11,7 +9,7 @@ args.volIncrements = 100;
 args.minPrice = 9000;
 args.maxPrice = 9100
 args.maxPriceImprovement = 2;
-args.minStartingOrders = 20;
+args.minStartingOrders = 50;
 args.maxMessages = 100;
 args.maxDelay = 3000;
 args.orderBorder = 0;
@@ -198,84 +196,96 @@ function range(a, b) {
   return out;
 }
 
-function createElementWithClass(name, className, id) {
-  var element = document.createElement(name);
+function createElementWithClass(elementType, className, id) {
+  var element = document.createElement(elementType);
   if (className) element.className = className;
   if (id) element.id = id;
   return element;
 }
 
-var orderPixels = 25;
-var sharePixels = 0.25;
+var orderPixels = 10;
+var sharePixels = 0.10;
 function Display(parent, book) {
 
   this.status = "inactive";
-  this.width = orderPixels * 10;  // 10 cents wide
-  this.height = sharePixels * 1000;  // 1000 shares tall
+  this.width = orderPixels * 100;  // 100 cents wide
+  this.height = sharePixels * 2000;  // 2000 shares tall
   this.book = book;
 
   // Book
   this.wrap = parent.appendChild(createElementWithClass("div", "book-" + this.status));
   this.wrap.style.height = this.height + "px";
-  this.yaxis = parent.appendChild(createElementWithClass("div", "", "yaxis"));
-  this.yaxis.style.height = this.height + "px";
-  this.xaxis = parent.appendChild(createElementWithClass("div", "", "xaxis"));
+  // this.yaxis = parent.appendChild(createElementWithClass("div", "", "yaxis"));
+  // this.yaxis.style.height = this.height + "px";
+  // this.xaxis = parent.appendChild(createElementWithClass("div", "", "xaxis"));
   this.bookLayer = null;
 
   // Price Chart
-  this.priceChart = parent.appendChild(createElementWithClass("div", "chart", "priceChart"));
-  this.priceChart.style.height = this.height + "px";
+  // this.priceChart = parent.appendChild(createElementWithClass("div", "chart", "priceChart"));
+  // this.priceChart.style.height = this.height + "px";
 
   // Volume Chart
-  this.volumeChart = parent.appendChild(createElementWithClass("div", "chart", "volumeChart"));
-  this.volumeChart.style.height = this.height + "px";
+  // this.volumeChart = parent.appendChild(createElementWithClass("div", "chart", "volumeChart"));
+  // this.volumeChart.style.height = this.height + "px";
 
   // Buttons
-  this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"));
-  this.playButton = this.buttonPanel.appendChild(createElementWithClass("button"));
-  this.playButton.appendChild(createElementWithClass("i", "fa fa-play", "playButton"));
-  this.addButton = this.buttonPanel.appendChild(createElementWithClass("button"));
-  this.addButton.appendChild(createElementWithClass("i", "fa fa-plus", "playButton"));
-  this.delButton = this.buttonPanel.appendChild(createElementWithClass("button"));
-  this.delButton.appendChild(createElementWithClass("i", "fa fa-minus", "playButton"));
-  this.mktButton = this.buttonPanel.appendChild(createElementWithClass("button"));
-  this.mktButton.appendChild(createElementWithClass("i", "fa fa-flash", "playButton"));
+  // this.buttonPanel = parent.appendChild(createElementWithClass("div", "buttonPanel"));
+  // this.playButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  // this.playButton.onclick = playPress;
+  // this.playButton.appendChild(createElementWithClass("i", "fa fa-play", "playButton"));
+  // this.addButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  // this.addButton.onclick = addPress;
+  // this.addButton.appendChild(createElementWithClass("i", "fa fa-plus", "playButton"));
+  // this.delButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  // this.delButton.onclick = deletePress;
+  // this.delButton.appendChild(createElementWithClass("i", "fa fa-minus", "playButton"));
+  // this.mktButton = this.buttonPanel.appendChild(createElementWithClass("button"));
+  // this.mktButton.onclick = executePress;
+  // this.mktButton.appendChild(createElementWithClass("i", "fa fa-flash", "playButton"));
 
   // Message Window
   this.msgWindow = parent.appendChild(createElementWithClass("div", "messageWindow"));
   var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "top-msg"));
-  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  // msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  msg.textContent = "";
   var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "mid-msg"));
-  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  // msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  msg.textContent = "";
   msg.style.color = "rgba(255, 255, 255, 0.5)";
   var msg = this.msgWindow.appendChild(createElementWithClass("p", "message", "bot-msg"));
-  msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  // msg.textContent = "message: (timestamp=1.494030, type='add', vol=100, prc=90.99, side='bid')";
+  msg.textContent = "";
   msg.style.color = "rgba(255, 255, 255, 0.1)";
 }
 Display.prototype.init = function() {
   console.log("Initializing display...");
   this.status = "active";
-  this.minPrice = (book.bids[book.bids.length - 1].price - 5);
-  this.maxPrice = (book.asks[book.asks.length - 1].price + 5);
-  this.maxVol = 1000;
-  this.hLines = this.maxVol / 100;
-  this.vLines = (this.maxPrice - this.minPrice) / 1;
+  // this.minPrice = (book.bids[book.bids.length - 1].price - 5);
+  // this.maxPrice = (book.asks[book.asks.length - 1].price + 5);
+
+  this.minPrice = args.minPrice;
+  this.maxPrice = args.maxPrice;
+
+  this.maxVol = 2000;
+  this.hLines = 10;
+  this.vLines = (this.maxPrice - this.minPrice);
 
   this.width = orderPixels * this.vLines;
   this.wrap.style.width = this.width + "px";
-  this.xaxis.style.width = this.width + "px";
-  this.priceChart.style.width = this.width + "px";
-  this.volumeChart.style.width = this.width + "px";
-  this.buttonPanel.style.left = 45 + (this.width / 2) - 90 + "px";
+  // this.xaxis.style.width = this.width + "px";
+  // this.priceChart.style.width = this.width + "px";
+  // this.volumeChart.style.width = this.width + "px";
+  // this.buttonPanel.style.left = 45 + (this.width / 2) - 90 + "px";
   this.msgWindow.style.width = this.width + "px";
 
   this.wrap.appendChild(this.drawBackground());
-  this.priceChart.appendChild(this.drawBackground());
-  this.volumeChart.appendChild(this.drawBackground());
+  // this.priceChart.appendChild(this.drawBackground());
+  // this.volumeChart.appendChild(this.drawBackground());
 
-  this.drawAxes();
+  // this.drawAxes();
   this.bookLayer = null;
   this.drawFrame();
+  this.playing = true;
 }
 Display.prototype.drawBackground = function() {
   if (args.verbose) console.log("drawBackground called.");
@@ -288,24 +298,24 @@ Display.prototype.drawBackground = function() {
   }
   return table;
 }
-Display.prototype.drawAxes = function () {
-  var yTable = this.yaxis.appendChild(createElementWithClass("table", "yaxis"));
-  for (var i = 0; i < this.hLines; i++) {
-    var row = yTable.appendChild(createElementWithClass("tr"));
-    var col = row.appendChild(createElementWithClass("td", "ylabel"));
-    col.textContent = (this.hLines * 100) - (i + 1) * 100;
-  }
-  var xTable = this.xaxis.appendChild(createElementWithClass("table", "xaxis"));
-  xTable.style.width = this.width + "px";
-  var row = xTable.appendChild(createElementWithClass("tr"));
-  for (var j = 0; j < this.vLines; j++) {
-    var col = row.appendChild(createElementWithClass("td", "xlabel"));
-    if ((j + 1) % 2 == 0) {
-      var price = (this.minPrice / 100 + j * 0.01)
-      col.textContent = price.toPrecision(4);
-    }
-  }
-};
+// Display.prototype.drawAxes = function () {
+//   var yTable = this.yaxis.appendChild(createElementWithClass("table", "yaxis"));
+//   for (var i = 0; i < this.hLines; i++) {
+//     var row = yTable.appendChild(createElementWithClass("tr"));
+//     var col = row.appendChild(createElementWithClass("td", "ylabel"));
+//     col.textContent = (this.hLines * 100) - (i + 1) * 100;
+//   }
+//   var xTable = this.xaxis.appendChild(createElementWithClass("table", "xaxis"));
+//   xTable.style.width = this.width + "px";
+//   var row = xTable.appendChild(createElementWithClass("tr"));
+//   for (var j = 0; j < this.vLines; j++) {
+//     var col = row.appendChild(createElementWithClass("td", "xlabel"));
+//     if ((j + 1) % 2 == 0) {
+//       var price = (this.minPrice / 100 + j * 0.01)
+//       col.textContent = price.toPrecision(4);
+//     }
+//   }
+// };
 Display.prototype.drawBook = function() {
   if (args.verbose) console.log("drawBook called.");
   var wrap = createElementWithClass("div", "orders");
@@ -345,7 +355,26 @@ Display.prototype.drawFrame = function() {
   this.wrap.className = "book-" + (this.status || "inactive");
 };
 Display.prototype.postOrder = function(order) {
-  this.msgWindow.child
+  var msg2 = this.msgWindow.childNodes[0].textContent;
+  var msg3 = this.msgWindow.childNodes[1].textContent;
+  var type = order['type'];
+  var side = order['side'];
+  if (order['type'] == 'del') {
+    var vol = "NA";
+  } else {
+    var vol = order['vol'];
+  }
+  if (order['type'] == 'mkt') {
+    var price = "NA";
+    var ref = "NA";
+  } else {
+    var ref = order['ref'];
+    var price = order['price'] / 100;
+  }
+  var msg1 = "message: (type=" + type + ", vol=" + vol + ", prc=" + price + ", side=" + side +  ", ref=" + ref + ")";
+  this.msgWindow.childNodes[0].textContent = msg1;
+  this.msgWindow.childNodes[1].textContent = msg2;
+  this.msgWindow.childNodes[2].textContent = msg3;
 }
 
 // Simulation Methods
@@ -478,13 +507,14 @@ function initialize(book, display) {
   }
   display.init();
 }
-function simulate(book, display, playing) {
+function simulate(book, display) {
 
   console.log('Running simulation...');
   var orderCount = 0;
 
   function generateOrders() {
-    if (orderCount < args.maxMessages) {
+    console.log("display status: ", display.playing);
+    if (orderCount < args.maxMessages && display.playing == true) {
       var ms = args.maxDelay * Math.random();
       var order = randomOrder(book);
       if (order != null) {
@@ -493,8 +523,9 @@ function simulate(book, display, playing) {
         display.drawFrame();
         ++orderCount;
       }
-
       setTimeout(generateOrders, ms);
+    } else if (display.playing == false) {
+      console.log("Simulation paused.");
     } else {
       console.log("Reached end of trading. Shutting down simulation.");
     }
@@ -502,3 +533,29 @@ function simulate(book, display, playing) {
 
   generateOrders();
 }
+
+function Timer() {
+  this.lastClock = 0;
+  this.running = false;
+}
+Timer.prototype.start = function () {
+  if (!this.running) {
+    this.lastStart = Date.now();
+    this.running = true;
+  } else {
+    console.log("the timer is already running");
+  }
+};
+Timer.prototype.stop = function () {
+  if (this.running) {
+    this.lastClock = this.time();
+    this.running = false;
+    return this.lastClock;
+  } else {
+    console.log("the timer is already stopped");
+  }
+};
+Timer.prototype.time = function () {
+  if (this.running) return ((Date.now() - this.lastStart) + this.lastClock) / 1000;
+  else return this.lastClock;
+};

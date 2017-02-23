@@ -7,33 +7,29 @@
 
 <body>
 
-  <!-- <div class="background"></div> -->
+  <div class="buttonPanel">
+    <button class="button" onclick=playPress(book,display)><i class="fa fa-pause" id="playButton"></i></button>
+    <button class="button" onclick=addPress()><i class="fa fa-plus" id="addButton"></i></button>
+    <button class="button" onclick=delPress()><i class="fa fa-minus" id="delButton"></i></button>
+    <button class="button" onclick=mktPress()><i class="fa fa-flash" id="mktButton"></i></button>
+  </div>
 
-  <!-- <div class="buttonPanel">
-    <button onclick="playPress()"><i id="play-button" class="fa fa-play" aria-hidden="true"></i></button>
-    <button onclick="addPress()"><i id="play-button" class="fa fa-plus" aria-hidden="true"></i></button>
-    <button onclick="deletePress()"><i id="play-button" class="fa fa-minus" aria-hidden="true"></i></button>
-    <button onclick="executePress()"><i id="play-button" class="fa fa-mail-forward" aria-hidden="true"></i></button>
-  </div> -->
-
-  <!-- <div class="window">
-    <p class="message" style="color: rgba(255, 255, 255, 1.0);">type: ADD, vol: 100, prc: 90.99, side: BID</p>
-    <p class="message" style="color: rgba(255, 255, 255, 0.5);">type: DEL, vol: 100, prc: 90.99, side: BID</p>
-    <p class="message" style="color: rgba(255, 255, 255, 0.1);">type: ADD, vol: 100, prc: 90.98, side: BID</p>
-  </div> -->
-
-  <!-- Button script -->
   <script>
-    function playPress() {
-      button = document.getElementById("play-button");
-      if (button.className == "fa fa-play") {
-        console.log("play pressed");
-        playing = false;
-        button.className = "fa fa-pause";
-      } else if (button.className == "fa fa-pause") {
+
+    var book = new OrderBook();
+    var display = new Display(document.body, book);
+
+    function playPress(book, display) {
+      button = document.getElementById("playButton");
+      if (button.className == "fa fa-pause") {
         console.log("pause pressed");
+        display.playing = false;
         button.className = "fa fa-play";
-        playing = true;
+      } else if (button.className == "fa fa-play") {
+        console.log("play pressed");
+        button.className = "fa fa-pause";
+        display.playing = true;
+        simulate(book, display);
       }
     }
     function addPress() {
@@ -44,7 +40,7 @@
         display.drawFrame();
       }
     }
-    function deletePress() {
+    function delPress() {
       console.log("delete pressed");
       var order = randomOrder(book, 'del');
       if (order != null) {
@@ -52,7 +48,7 @@
         display.drawFrame();
       }
     }
-    function executePress() {
+    function mktPress() {
       console.log("execute pressed");
       var order = randomOrder(book, 'mkt');
       if (order != null) {
@@ -60,13 +56,6 @@
         display.drawFrame();
       }
     }
-  </script>
-
-  <script>
-
-    var book = new OrderBook();
-    var display = new Display(document.body, book);
-    var playing = false;
 
     addEventListener("keydown", function(event) {
       if (event.keyCode == 65) {
@@ -103,7 +92,7 @@
     });
 
     initialize(book, display);
-    // simulate(book, display);
+    simulate(book, display);
 
   </script>
 
